@@ -1,0 +1,20 @@
+{
+  "invoke": { "onChange": false, "args": {} },
+  "prepare": {
+    "id": "3c060ff4-c8b6-11ed-afa1-0242ac120002",
+    "hook": {
+      "id": "d5e8215c-d257-11ed-afa1-0242ac120002",
+      "points": {
+        "labelAttribute": "attrs.class",
+        "layer": "hpl:bacnet:1",
+        "query": {
+          "field": {
+            "property": "device_id",
+            "numeric": { "minValue": 260001, "maxValue": 260001 }
+          }
+        },
+        "globalVariables": [{ "label": "globaltest1" }]
+      }
+    }
+  }
+}

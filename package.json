@@ -6,10 +6,11 @@
   "type": "commonjs",
   "scripts": {
     "build": "npx tsc",
-    "deploy": "npx deploy"
+    "configure": "npx applications-sdk configure",
+    "deploy": "npx applications-sdk deploy"
   },
   "dependencies": {
-    "@normalframework/applications-sdk": "^0.0.2",
+    "@normalframework/applications-sdk": "0.0.9",
     "typescript": "^5.0.2"
   },
   "author": "",
