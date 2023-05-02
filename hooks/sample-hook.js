@@ -1,3 +1,3 @@
-module.exports.default = (points, sdk) => {
+module.exports = (points, sdk) => {
   console.log("runnning sample hook!");
 };
