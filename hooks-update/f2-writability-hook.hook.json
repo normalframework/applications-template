@@ -1,0 +1,17 @@
+{
+  "hook": {
+    "id": "f2-writability",
+    "entry_point": "hooks/f2-writability-hook.js",
+    "points": {
+      "labelAttribute": "attrs.class",
+      "layer": "hpl:bacnet:1",
+      "query": {
+        "field": {
+          "property": "device_id",
+          "numeric": { "minValue": 260001, "maxValue": 260001 }
+        }
+      },
+      "globalVariables": [{ "label": "globaltest1" }]
+    }
+  }
+}
