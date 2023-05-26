@@ -1,13 +1,20 @@
-const {
-  InvokeSuccess,
-  InvokeError,
-} = require("@normalframework/applications-sdk");
+const NormalSdk = require("@normalframework/applications-sdk");
 
-
-const WRITE_VALUE = 2.0;
-
+/**
+ *
+ * @param {NormalSdk.IPoint} point
+ * @param {NormalSdk.IRunParams} sdk
+ * @returns {boolean} success or not
+ */
 async function testPoint(point, sdk) {
-  const [success, writeError] = await point.write(WRITE_VALUE);
+  const [initialValue, readError] = await point.read();
+  if (readError) {
+    console.log(readError);
+    return false;
+  }
+
+  const targetValue = (initialValue.value.real ?? 0) + 1;
+  const [success, writeError] = await point.write(targetValue);
 
   // Check for write error
   if (!success) {
@@ -21,19 +28,18 @@ async function testPoint(point, sdk) {
   // Validate that value actually written
   const [value, error] = await point.read();
   if (error) {
-    console.log(writeError);
     return false;
   }
   // Not strict equal to skip type validation
-  return value.scalar == WRITE_VALUE;
+  return value.value.real === targetValue;
 }
 
 /**
- *
- * @param {InvokeFn} a
- * @returns {Promise<SDK.InvokeResult>}
+ * Invoke hook function
+ * @param {NormalSdk.InvokeParams} params
+ * @returns {NormalSdk.InvokeResult}
  */
-module.exports = async (a) => {
+module.exports = async ({ points, sdk }) => {
   const pointsArray = [...points.values()];
   try {
     const promises = pointsArray.map((p) => testPoint(p, sdk));
@@ -49,5 +55,4 @@ module.exports = async (a) => {
   } catch (e) {
     return InvokeError("error while execution hook");
   }
-  return 
 };

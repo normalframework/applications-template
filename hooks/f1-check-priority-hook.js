@@ -1,10 +1,13 @@
-const {
-  InvokeSuccess,
-  InvokeError,
-} = require("@normalframework/applications-sdk");
+const NormalSdk = require("@normalframework/applications-sdk");
 
 const PRIORITY_TO_CHECK = 5;
 
+/**
+ *
+ * @param {NormalSdk.IPoint} point
+ * @param {NormalSdk.IRunParams} sdk
+ * @returns {boolean} success or not
+ */
 async function testPoint(point, sdk) {
   // Read current priority array value
   const [startValue, readStartError] = await point.readPriority(
@@ -34,6 +37,11 @@ async function testPoint(point, sdk) {
   return endValue.real === valueToWrite;
 }
 
+/**
+ * Invoke hook function
+ * @param {NormalSdk.InvokeParams} params
+ * @returns {NormalSdk.InvokeResult}
+ */
 module.exports = async ({ points, sdk }) => {
   const pointsArray = [...points.values()];
   try {
@@ -41,14 +49,15 @@ module.exports = async ({ points, sdk }) => {
     const results = await Promise.all(promises);
     const success = results.every((s) => s);
     if (success) {
-      return InvokeSuccess("success");
+      return NormalSdk.InvokeSuccess("success");
     } else {
       console.log("Success count: ", results.filter((s) => s).length);
       console.log("Errors count: ", results.filter((s) => !s).length);
-      return InvokeSuccess("some points are not writtable");
+
+      return NormalSdk.InvokeSuccess("some points are not writtable");
     }
   } catch (e) {
     console.error(e);
-    return InvokeError("error while execution hook");
+    return NormalSdk.InvokeError("error while execution hook");
   }
 };
