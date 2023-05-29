@@ -10,16 +10,26 @@ const PRIORITY_TO_CHECK = 5;
  */
 async function testPoint(point, sdk) {
   // Read current priority array value
-  const [startValue, readStartError] = await point.readPriority(
-    PRIORITY_TO_CHECK
+  const [priorityArray, readStartError] = await point.read(
+    NormalSdk.PropertyIdentifier.PRIORITY_ARRAY
   );
   if (readStartError) {
     return false;
   }
 
+  // Check if higher priority is already set
+  for (let i = 0; i < PRIORITY_TO_CHECK - 1; i++) {
+    if (!priorityArray.value.priorityValues[i]?.null) {
+      return false;
+    }
+  }
+
+  const currentValue =
+    priorityArray.value.priorityValues[PRIORITY_TO_CHECK - 1]?.real;
+
   // Write value + 1;
-  const valueToWrite = (startValue.real ?? 0) + 1;
-  const [success] = await point.write(valueToWrite, null, {
+  const valueToWrite = (currentValue ?? 0) + 1;
+  const [success, err] = await point.write({ real: valueToWrite }, null, {
     priority: PRIORITY_TO_CHECK,
   });
   if (!success) {
@@ -28,13 +38,16 @@ async function testPoint(point, sdk) {
   await sdk.sleep(2);
 
   // Read new priority array value
-  const [endValue, readEndError] = await point.readPriority(PRIORITY_TO_CHECK);
+  const [endArray, readEndError] = await point.read(
+    NormalSdk.PropertyIdentifier.PRIORITY_ARRAY
+  );
   if (readEndError) {
     return false;
   }
 
+  const endValue = endArray.value.priorityValues[PRIORITY_TO_CHECK - 1]?.real;
   // Validate that write took effect
-  return endValue.real === valueToWrite;
+  return endValue === valueToWrite;
 }
 
 /**
