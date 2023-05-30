@@ -9,7 +9,6 @@ const NormalSdk = require("@normalframework/applications-sdk");
 async function testPoint(point, sdk) {
   const [initialValue, readError] = await point.read();
   if (readError) {
-    console.log(readError);
     return false;
   }
 
@@ -18,7 +17,6 @@ async function testPoint(point, sdk) {
 
   // Check for write error
   if (!success) {
-    console.log(writeError);
     return false;
   }
 
