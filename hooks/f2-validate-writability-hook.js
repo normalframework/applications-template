@@ -14,7 +14,7 @@ async function testPoint(point, sdk) {
   }
 
   const targetValue = (initialValue.value.real ?? 0) + 1;
-  const [success, writeError] = await point.write(targetValue);
+  const [success, writeError] = await point.write({ real: targetValue });
 
   // Check for write error
   if (!success) {
@@ -46,13 +46,13 @@ module.exports = async ({ points, sdk }) => {
     const results = await Promise.all(promises);
     const success = results.every((s) => s);
     if (success) {
-      return InvokeSuccess("success");
+      return NormalSdk.InvokeSuccess("success");
     } else {
       console.log("Success count: ", results.filter((s) => s).length);
       console.log("Errors count: ", results.filter((s) => !s).length);
-      return InvokeSuccess("some points are not writtable");
+      return NormalSdk.InvokeSuccess("some points are not writtable");
     }
   } catch (e) {
-    return InvokeError("error while execution hook");
+    return NormalSdk.InvokeSuccess("error while execution hook");
   }
 };
