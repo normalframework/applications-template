@@ -42,7 +42,7 @@ module.exports = async ({ sdk, args }) => {
     return NormalSdk.InvokeError("Can not parse value");
   }
   try {
-    const res = await sdk.normalApi.pointClient.addPointsData({
+    await sdk.normalApi.pointClient.addPointsData({
       uuid: args["uuid"],
       errors: [],
       layer: args["layer"] ?? "hpl:bacnet:1",
@@ -56,7 +56,6 @@ module.exports = async ({ sdk, args }) => {
         },
       ],
     });
-    console.log(res);
     return NormalSdk.InvokeSuccess("Data added");
   } catch (e) {
     return NormalSdk.InvokeError("Error adding data");
