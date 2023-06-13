@@ -1,7 +1,8 @@
 {
   "hook": {
     "id": "f1-check-priority",
-    "entry_point": "hooks/f1-check-priority-hook.js",
+    "entryPoint": "hooks/f1-check-priority-hook.js",
+    "name": "f1-check-priority",
     "points": {
       "labelAttribute": "attrs.class",
       "layer": "hpl:bacnet:1",
