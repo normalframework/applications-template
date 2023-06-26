@@ -1,7 +1,8 @@
 {
   "hook": {
-    "id": "i2-postgres-integration",
-    "entry_point": "hooks/i2-postgres-integration-hook.js",
+    "id": "d5e8215c-d257-11ed-afa1-0242ac120002",
+    "name": "sample",
+    "entryPoint": "hooks/sample-hook.js",
     "points": {
       "labelAttribute": "attrs.class",
       "layer": "hpl:bacnet:1",

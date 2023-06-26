@@ -1,0 +1,7 @@
+{
+  "hook": {
+    "id": "i3-add-data-webhook",
+    "name": "i3-add-data-webhook",
+    "entryPoint": "hooks/i3-add-data-webhook-hook.js"
+  }
+}

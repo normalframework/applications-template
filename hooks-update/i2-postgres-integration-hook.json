@@ -1,8 +1,8 @@
 {
   "hook": {
-    "id": "f1-check-priority",
-    "entryPoint": "hooks/f1-check-priority-hook.js",
-    "name": "f1-check-priority",
+    "id": "i2-postgres-integration",
+    "name": "i2-postgres-integration",
+    "entryPoint": "hooks/i2-postgres-integration-hook.js",
     "points": {
       "labelAttribute": "attrs.class",
       "layer": "hpl:bacnet:1",
