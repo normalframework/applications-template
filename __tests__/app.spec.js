@@ -7,26 +7,28 @@ const {
   program,
 } = require("@normalframework/applications-sdk");
 
-/**
- * @type {TestInstance}
- */
-var nf;
-
 describe("Application test", () => {
-  beforeAll(async () => {
+  /**
+   * @type {TestInstance}
+   */
+  let nf;
+  beforeEach(async () => {
     nf = await testInstance();
     await nf.loadFixtures(["fixtures/points.json"]);
   });
 
+  afterEach(async () => {
+    await nf.down();
+  });
+
   it("test install", async () => {
-    await nf.install("test-app");
-    const reply =
-      await nf.sdk.normalApi.applicationServiceClient.getApplications(
-        program.GetApplicationsRequest.create()
-      );
+    const app = await nf.install();
+    const reply = await nf.api.applicationServiceClient.getApplications(
+      program.GetApplicationsRequest.create()
+    );
 
     expect(reply.response.applications.length).toBe(1);
-    expect(reply.response.applications[0].name).toBe("test-app");
+    expect(reply.response.applications[0].id).toBe(app.applicationId);
     expect(reply.response.applications[0].status).toBe(
       program.ApplicationStatus.STATUS_INSTALLED
     );
@@ -38,8 +40,8 @@ describe("Application test", () => {
      */
     let app;
 
-    beforeAll(async () => {
-      app = await nf.getApp("test-app");
+    beforeEach(async () => {
+      app = await nf.install();
     });
 
     it("test i3-add-data-webhook", async () => {
@@ -53,7 +55,7 @@ describe("Application test", () => {
 
       expect(res.error).toBeUndefined();
 
-      const data = await nf.sdk.normalApi.pointClient.getData(
+      const data = await nf.api.pointClient.getData(
         point.GetDataRequest.create({
           uuids: ["9c521e1b-d8c2-34e3-a679-71dd6394a4fd"],
           to: Timestamp.now(),
@@ -63,9 +65,15 @@ describe("Application test", () => {
       expect(data.response.data.length).toBe(1);
       expect(data.response.data[0].values[0].valueType.double).toBe(10);
     });
-  });
 
-  afterAll(async () => {
-    await nf.down();
+    it("test f1-check-priority-hook", async () => {
+      const res = await app.startHook({
+        hookId: "f1-check-priority",
+      });
+
+      expect(res.error).toBeUndefined();
+      expect(Object.values(res.results).length).toBe(1);
+      expect(res.results[''].returnValue).toBe('success');
+    });
   });
 });
