@@ -17,7 +17,6 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
 	 "uuid": "9c521e1b-d8c2-34e3-a679-71dd6394a4fd",
-		"layer": "hpl:bacnet:1",
 	 "value": "123.45"
 }'
 */
