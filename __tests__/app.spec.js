@@ -52,18 +52,17 @@ describe("Application test", () => {
     });
 
     it("test i3-add-data-webhook", async () => {
-      // Can not mock here
-      const res = await app.startHook({
+      const hook = app.hook("i3-add-data-webhook");
+      const res = await hook.start({
         args: {
           uuid: "9c521e1b-d8c2-34e3-a679-71dd6394a4fd",
           value: 10,
         },
-        hookId: "i3-add-data-webhook",
       });
 
       expect(res.error).toBeUndefined();
-
       const point = nf.point("9c521e1b-d8c2-34e3-a679-71dd6394a4fd");
+      await nf.sleep({ seconds: 1 });
       const data = await point.data(undefined, new Date());
 
       expect(data.length).toBe(1);
