@@ -29,8 +29,10 @@ async function testPoint(point, sdk) {
 
   // Write value + 1;
   const valueToWrite = (currentValue ?? 0) + 1;
-  const [success, err] = await point.write({ real: valueToWrite }, null, {
-    priority: PRIORITY_TO_CHECK,
+  const [success, err] = await point.write({ real: valueToWrite }, {
+    bacnetOptions: {
+      priority: PRIORITY_TO_CHECK,
+    }
   });
   if (!success) {
     return false;
