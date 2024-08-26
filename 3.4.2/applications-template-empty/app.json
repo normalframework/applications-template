@@ -1,0 +1,10 @@
+{
+    "name":"test-3.5",
+    "options": [
+      {
+        "name": "option 1",
+        "option_type": "TYPE_STRING",
+        "required": true
+      }
+    ]
+  }
