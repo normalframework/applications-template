@@ -14,7 +14,7 @@
     "testTimeout": 30000
   },
   "dependencies": {
-    "@normalframework/applications-sdk": "0.1.80",
+    "@normalframework/applications-sdk": "0.1.92",
     "pg": "^8.11.0",
     "typescript": "^5.0.2"
   },
